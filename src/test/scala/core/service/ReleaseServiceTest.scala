@@ -281,7 +281,7 @@ class ReleaseServiceTest extends AnyFunSuite {
 
       val result = service.agreeToReleaseDate(releaseId)
 
-      assert(result == Left(AppError("Artist not found")))
+      assert(result == Left(AppError.NotFound))
     }
 
     test("should distribute release if agreed date is today or earlier and status is Scheduled") {
@@ -402,7 +402,7 @@ class ReleaseServiceTest extends AnyFunSuite {
 
       val result = service.withdrawRelease(ReleaseId("nonexistent"))
 
-      assert(result == Left(AppError("Release not found")))
+      assert(result == Left(AppError.NotFound))
     }
 
 }

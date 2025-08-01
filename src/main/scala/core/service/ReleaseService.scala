@@ -80,7 +80,7 @@ class ReleaseService(releaseRepo: ReleaseRepository, artistRepo: ArtistRepositor
       case Some(release) =>
         artistRepo.findById(release.artistId) match {
           case None =>
-            Left(AppError("Artist not found"))
+            Left(AppError.NotFound)
 
           case Some(artist) if artist.label.isEmpty =>
             Left(AppError("Artist has no label. Cannot approve release."))
@@ -122,7 +122,7 @@ class ReleaseService(releaseRepo: ReleaseRepository, artistRepo: ArtistRepositor
   def withdrawRelease(releaseId: ReleaseId): Either[AppError, Unit] = {
     releaseRepo.findById(releaseId) match {
       case None =>
-        Left(AppError("Release not found"))
+        Left(AppError.NotFound)
 
       case Some(release) if release.status != ReleaseStatus.Released =>
         Left(AppError("Only released releases can be taken down"))

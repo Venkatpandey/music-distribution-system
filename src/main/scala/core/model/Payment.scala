@@ -3,6 +3,7 @@ package core.model
 
 import java.time.Instant
 
+// Payment tracks payments for an artist
 final case class Payment(
                           artistId: ArtistId,
                           paidAt: Instant,

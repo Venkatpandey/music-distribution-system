@@ -8,13 +8,11 @@ class StreamingReportService(
                               streamRepo: StreamRepository,
                               releaseRepo: ReleaseRepository
                             ) {
-
-  /**
-   * Generates a streaming report for the given artist.
-   * For each song associated with the artist, it aggregates all recorded streams
-   * and calculates how many were monetized (duration >= 30s) and how many were not.
-   * Returns a list of StreamReportEntry with monetized and nonmonetized counts.
-   */
+  
+  // Generates a streaming report for the given artist.
+  // For each song associated with the artist, it aggregates all recorded streams
+  // and calculates how many were monetized (duration >= 30s) and how many were not.
+  // Returns a list of StreamReportEntry with monetized and nonmonetized counts.
   def generateReport(artistId: ArtistId): List[StreamReport] = {
     val streams = streamRepo.all().filter(_.artistId == artistId)
 

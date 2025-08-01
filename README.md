@@ -33,6 +33,61 @@ This is a prototype implementation of a core module for a music distribution sys
   test/ 
   └── scala/ # Unit tests </code> </pre>
 
+## Data Model Relationship
+
+```mermaid
+classDiagram
+  class Artist {
+    ArtistId id
+    String name
+    RecordLabel recordLabel
+  }
+
+  class RecordLabel {
+    String name
+  }
+
+  class Release {
+    ReleaseId id
+    String title
+    ArtistId artistId
+    List~Song~ songs
+    LocalDate proposedDate
+    LocalDate agreedDate
+    ReleaseStatus status
+  }
+
+  class Song {
+    SongId id
+    String title
+    Int duration
+  }
+
+  class Stream {
+    SongId songId
+    ReleaseId releaseId
+    ArtistId artistId
+    Int duration
+    Instant streamedAt
+    Boolean monetized
+  }
+
+  class Payment {
+    ArtistId artistId
+    Int amount
+    Instant paidAt
+  }
+
+  Artist --> RecordLabel
+  Release --> Artist
+  Release --> Song
+  Stream --> Song
+  Stream --> Release
+  Stream --> Artist
+  Payment --> Artist
+
+```
+
 ## How to Run 
 1. Clone the repository
 2. Run demo with:

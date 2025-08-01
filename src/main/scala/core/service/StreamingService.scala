@@ -10,6 +10,9 @@ import java.time.Instant
 class StreamingService(releaseRepo: ReleaseRepository, streamRepo: StreamRepository) {
 
   // Each call to recordStream represents a separate playback
+  // recordStream fetches all release which are not withdrawn and un-released
+  // check if the current stream is monetized
+  // add to streamed with monetized set to true
   def recordStream(songId: SongId, duration: Int): Either[AppError, Unit] = {
     if (duration <= 0) return Left(AppError("Duration must be positive"))
 
@@ -41,10 +44,8 @@ class StreamingService(releaseRepo: ReleaseRepository, streamRepo: StreamReposit
     }
   }
 
+  // fetch a stream by songId
   def bySong(songId: SongId): List[Stream] =
     streamRepo.all().filter(_.songId == songId)
-
-  def byArtist(artistId: ArtistId): List[Stream] =
-    streamRepo.all().filter(_.artistId == artistId)
 }
 

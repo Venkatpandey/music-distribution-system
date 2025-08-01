@@ -8,8 +8,6 @@ trait ReleaseRepository {
 
   def findById(id: ReleaseId): Option[Release]
 
-  def findByArtist(artistId: ArtistId): List[Release]
-
   def all(): List[Release]
 }
 

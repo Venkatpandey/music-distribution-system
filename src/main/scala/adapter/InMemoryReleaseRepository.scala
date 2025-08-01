@@ -17,9 +17,6 @@ class InMemoryReleaseRepository extends ReleaseRepository {
   override def findById(id: ReleaseId): Option[Release] =
     store.get(id)
 
-  override def findByArtist(artistId: ArtistId): List[Release] =
-    store.values.filter(_.artistId == artistId).toList
-
   override def all(): List[Release] =
     store.values.toList
 }

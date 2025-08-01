@@ -1,11 +1,11 @@
 package test.ice
 package core.service
 
-import org.scalatest.funsuite.AnyFunSuite
-import core.model._
-import core.service.StreamingService
 import adapter.{InMemoryReleaseRepository, InMemoryStreamRepository}
 import core.error.AppError
+import core.model.*
+
+import org.scalatest.funsuite.AnyFunSuite
 
 class StreamingServiceTest extends AnyFunSuite {
 

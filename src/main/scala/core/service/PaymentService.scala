@@ -13,19 +13,15 @@ class PaymentService(
                     ) {
   private val pricePerStream = BigDecimal("0.01")
 
-  /**
-   * Calculates and files a payment for the given artist.
-   *
-   * This method:
-   *  - Fetches all monetized streams for the artist
-   *  - Filters streams that occurred after the last recorded payment (if any)
-   *  - Calculates total amount using a fixed per-stream rate
-   *  - Stores the new payment and returns it
-   *
-   *  We assume price per stream to be 0.01 Unit Currency
-   *
-   * If there are no eligible new monetized streams, returns an error.
-   */
+
+   // Calculates and files a payment for the given artist.
+   // This method:
+   // - Fetches all monetized streams for the artist
+   // - Filters streams that occurred after the last recorded payment (if any)
+   // - Calculates total amount using a fixed per-stream rate
+   // - Stores the new payment and returns it
+   // We assume price per stream to be 0.01 Unit Currency
+   // If there are no eligible new monetized streams, returns an error.
   def fileForPayment(artistId: ArtistId): Either[AppError, Payment] = {
     val monetizedStreams = streamRepo
       .all()

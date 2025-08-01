@@ -1,12 +1,10 @@
 package test.ice
 package core.service
 
-import org.scalatest.funsuite.AnyFunSuite
-import core.model.*
-import core.service.ReleaseSearchService
 import adapter.{InMemoryArtistRepository, InMemoryReleaseRepository}
+import core.model.*
 
-import test.ice.core.port.ArtistRepository
+import org.scalatest.funsuite.AnyFunSuite
 
 class ReleaseSearchTest extends AnyFunSuite {
 

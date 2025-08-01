@@ -5,6 +5,7 @@ import java.time.LocalDate
 
 final case class ReleaseId(value: String) extends AnyVal
 
+// ReleaseStatus status of release that it go through in its lifetime
 sealed trait ReleaseStatus
 object ReleaseStatus {
   case object Draft extends ReleaseStatus

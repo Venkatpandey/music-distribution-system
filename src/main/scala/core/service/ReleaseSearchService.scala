@@ -6,6 +6,9 @@ import core.port.{ReleaseRepository, SearchService}
 
 class ReleaseSearchService(releaseRepo: ReleaseRepository) extends SearchService {
   private val minSimilarity = 0.8 // Uses a fixed similarity threshold of 0.8 (i.e. 80% match or better).
+
+  // searchSimilar uses levenshtein to find matching songs for the
+  // given song title.
   def searchSimilar(title: String): List[Song] = {
     releaseRepo
       .all()
@@ -17,6 +20,9 @@ class ReleaseSearchService(releaseRepo: ReleaseRepository) extends SearchService
       }
   }
 
+  // Computes a normalized similarity score between two strings using Levenshtein distance.
+  // The result ranges from 0.0 (completely different) to 1.0 (exact match),
+  // making it suitable for fuzzy string comparison regardless of string length.
   private def computeSimilarity(a: String, b: String): Double = {
     val distance = levenshtein(a, b)
     val maxLen = math.max(a.length, b.length)
@@ -24,6 +30,8 @@ class ReleaseSearchService(releaseRepo: ReleaseRepository) extends SearchService
   }
 
 
+  // https://en.wikipedia.org/wiki/Levenshtein_distance
+  // https://rosettacode.org/wiki/Levenshtein_distance#Scala
   private def levenshtein(a: String, b: String): Int = {
     val lenA = a.length
     val lenB = b.length

@@ -1,18 +1,13 @@
 package test.ice
 package core.service
 
+import adapter.{InMemoryArtistRepository, InMemoryReleaseRepository}
 import core.error.AppError
-
-import org.scalatest.funsuite.AnyFunSuite
-import test.ice.adapter.InMemoryArtistRepository
-
-import java.time.LocalDate
-
-import adapter.InMemoryReleaseRepository
 import core.model.*
 
 import org.scalatest.funsuite.AnyFunSuite
 
+import java.time.LocalDate
 import java.util.UUID
 
 class ReleaseServiceTest extends AnyFunSuite {

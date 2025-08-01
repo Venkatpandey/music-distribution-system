@@ -68,6 +68,7 @@ class ReleaseService(releaseRepo: ReleaseRepository, artistRepo: ArtistRepositor
     }
   }
 
+ // agreeToReleaseDate marks a release to be scheduled for
   def agreeToReleaseDate(releaseId: ReleaseId): Either[AppError, Unit] = {
     releaseRepo.findById(releaseId) match {
       case None =>
@@ -95,6 +96,9 @@ class ReleaseService(releaseRepo: ReleaseRepository, artistRepo: ArtistRepositor
     }
   }
 
+  // distributeIfDue marks a release to be released if its due
+  // as of now, we just pass current date to check if its due, 
+  // it can be done using a regular job in background which looks for due release and marked them.
   def distributeIfDue(releaseId: ReleaseId, today: LocalDate): Either[AppError, Unit] = {
     releaseRepo.findById(releaseId) match {
       case None =>
@@ -113,6 +117,8 @@ class ReleaseService(releaseRepo: ReleaseRepository, artistRepo: ArtistRepositor
     }
   }
 
+  // withdrawRelease helps an artist to mark a release as TakenDown,
+  // making them no longer available for distribution.
   def withdrawRelease(releaseId: ReleaseId): Either[AppError, Unit] = {
     releaseRepo.findById(releaseId) match {
       case None =>

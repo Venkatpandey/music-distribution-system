@@ -1,12 +1,11 @@
 package test.ice
 package core.service
 
-import org.scalatest.funsuite.AnyFunSuite
-import core.model.*
-import core.service.PaymentService
 import adapter.{InMemoryPaymentRepository, InMemoryStreamRepository}
+import core.error.AppError
+import core.model.*
 
-import test.ice.core.error.AppError
+import org.scalatest.funsuite.AnyFunSuite
 
 import java.time.Instant
 

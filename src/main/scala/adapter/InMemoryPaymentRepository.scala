@@ -1,17 +1,18 @@
 package test.ice
 package adapter
 
-import core.model.{ArtistId, Payment}
+import core.model.Payment
 import core.port.PaymentRepository
 
-import scala.collection.mutable
+import java.util.concurrent.ConcurrentLinkedQueue
+import scala.jdk.CollectionConverters.*
 
 class InMemoryPaymentRepository extends PaymentRepository {
 
-  private val store = mutable.ListBuffer.empty[Payment]
+  private val store = new ConcurrentLinkedQueue[Payment]()
 
   override def save(payment: Payment): Unit =
-    store += payment
+    store.add(payment)
 
-  override def all(): List[Payment] = store.toList
+  override def all(): List[Payment] = store.iterator().asScala.toList
 }

@@ -15,7 +15,7 @@ This is a prototype implementation of a core module for a music distribution sys
 
 ## Tech Stack
 
-- Scala (JVM)
+- Scala 3.3.1
 - Hexagonal architecture
 - In-memory storage for all repositories
 - Unit tests using ScalaTest
@@ -98,8 +98,15 @@ classDiagram
    ```bash
    sbt test
 
-## Assumptions
-- All streams are uniquely recorded; no duplication or fraud checks are implemented
-- Time-based triggers (e.g. activating release on date) are simulated manually
-- No persistent database or concurrency handling included
-- Error handling is simplified via a general-purpose AppError type
+## Assumptions & Production Readiness
+- All streams are uniquely recorded; no duplication or fraud checks are implemented.
+- distributeIfDue feature is simulated manually - may be enhanced by introducing some background jobs.
+- The In-Memory storage needs to be swapped out by persistent storage, with connection pooling if needed.
+- The driven part adapter needs to be implemented to expose core logic, depends on how app will interact with other systems.
+  - Will introduce stricter validations, its own entity types and clear contract specs.
+- We have used AppModule to wire all up to keep it simple, but in reality we can use some DI framework.
+- The search demo needs to be replaced by dedicated search engine solution, to scale it better.
+- The core is covered by Unit tests, but we need integration tests once we start adding dependencies (DB, Queues, etc).
+- The Error handling is very basic, for more complex flows and situation we can introduce richer error types.
+- So far there is no logging added, for production, we need some observability, health checks, structured log, metrics, traces.
+- No CI/CD setup for the app.

@@ -3,11 +3,11 @@ package adapter
 
 import core.model._
 import core.port.ArtistRepository
-import scala.collection.mutable
+import scala.collection.concurrent.TrieMap
 
 class InMemoryArtistRepository extends ArtistRepository {
-
-  private val store: mutable.Map[ArtistId, Artist] = mutable.Map.empty
+  
+  private val store = TrieMap.empty[ArtistId, Artist]
 
   def save(artist: Artist): Unit = {
     store.update(artist.id, artist)

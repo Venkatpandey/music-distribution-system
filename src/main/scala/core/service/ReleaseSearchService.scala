@@ -5,7 +5,7 @@ import core.model._
 import core.port.{ReleaseRepository, SearchService}
 
 class ReleaseSearchService(releaseRepo: ReleaseRepository) extends SearchService {
-  private val minSimilarity = 0.8 // Uses a fixed similarity threshold of 0.8 (i.e. 80% match or better).
+  private val minSimilarity = 0.7 // Uses a fixed similarity threshold of 0.8 (i.e. 80% match or better).
 
   // searchSimilar uses levenshtein to find matching songs for the
   // given song title.

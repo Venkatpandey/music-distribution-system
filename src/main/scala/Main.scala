@@ -66,8 +66,8 @@ object Main {
     println(s"[Payment Filed] → $payment\n")
 
     // Step 9: Search for similar song
-    val matches = searchService.searchSimilar("dream")
-    println("[Search Results for 'dream']:")
+    val matches = searchService.searchSimilar("dram state")
+    println("[Search Results]:")
     matches.foreach(s => println(s"• ${s.title}"))
     println()
 

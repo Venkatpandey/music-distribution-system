@@ -7,6 +7,8 @@ final case class ReleaseId(value: String) extends AnyVal
 
 // ReleaseStatus status of release that it go through in its lifetime
 sealed trait ReleaseStatus
+// On creation of a release it follows life cycle:
+// Draft -> PendingApproval -> Scheduled -> Released -> TakenDown
 object ReleaseStatus {
   case object Draft extends ReleaseStatus // initial status
   case object PendingApproval extends ReleaseStatus // artist proposed a release data

@@ -11,7 +11,7 @@ import java.time.LocalDate
 import java.util.UUID
 
 class ReleaseServiceTest extends AnyFunSuite {
-    test("create release with empty ID should generate new ID and save") {
+    test("success: create release with empty ID should generate new ID and save") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -33,7 +33,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(repo.findById(saved.id).isDefined)
     }
 
-    test("create release with existing ID should fail") {
+    test("fail: create release with existing ID should fail") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -55,7 +55,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(result.isLeft)
     }
 
-    test("create new release with new ID should succeed") {
+    test("success: create new release with new ID should succeed") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -76,7 +76,7 @@ class ReleaseServiceTest extends AnyFunSuite {
     }
 
 
-    test("artist adds a song via service with repo injected new") {
+    test("success: artist adds a song via service with repo injected new") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -101,7 +101,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(updated.songs.contains(song))
     }
 
-    test("artist can propose a release date for a draft release") {
+    test("success: artist can propose a release date for a draft release") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -128,7 +128,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(updated.status == ReleaseStatus.PendingApproval)
     }
 
-    test("cannot propose release date if release is not in Draft status") {
+    test("fail: cannot propose release date if release is not in Draft status") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -151,7 +151,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(result == Left(AppError.InvalidState))
     }
 
-    test("cannot propose release date if release has no songs") {
+    test("fail: cannot propose release date if release has no songs") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -175,7 +175,7 @@ class ReleaseServiceTest extends AnyFunSuite {
     }
 
 
-    test("should successfully agree to release date when artist has label") {
+    test("success: should successfully agree to release date when artist has label") {
       val releaseRepo = new InMemoryReleaseRepository()
       val artistRepo = new InMemoryArtistRepository()
       val service = new ReleaseService(releaseRepo, artistRepo)
@@ -207,7 +207,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(updated.status == ReleaseStatus.Scheduled)
     }
 
-    test("should fail if release is not in PendingApproval status") {
+    test("fail: should fail if release is not in PendingApproval status") {
       val releaseRepo = new InMemoryReleaseRepository()
       val artistRepo = new InMemoryArtistRepository()
       val service = new ReleaseService(releaseRepo, artistRepo)
@@ -234,7 +234,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(result == Left(AppError.InvalidState))
     }
 
-    test("should fail if artist has no label") {
+    test("fail: should fail if artist has no label") {
       val releaseRepo = new InMemoryReleaseRepository()
       val artistRepo = new InMemoryArtistRepository()
       val service = new ReleaseService(releaseRepo, artistRepo)
@@ -261,7 +261,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(result == Left(AppError("Artist has no label. Cannot approve release.")))
     }
 
-    test("should fail if artist does not exist") {
+    test("fail: should fail if artist does not exist") {
       val releaseRepo = new InMemoryReleaseRepository()
       val artistRepo = new InMemoryArtistRepository()
       val service = new ReleaseService(releaseRepo, artistRepo)
@@ -284,7 +284,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(result == Left(AppError.NotFound))
     }
 
-    test("should distribute release if agreed date is today or earlier and status is Scheduled") {
+    test("success: should distribute release if agreed date is today or earlier and status is Scheduled") {
       val releaseRepo = new InMemoryReleaseRepository()
       val artistRepo = new InMemoryArtistRepository()
       val service = new ReleaseService(releaseRepo, artistRepo)
@@ -311,7 +311,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(updated.status == ReleaseStatus.Released)
     }
 
-    test("should fail if release status is not Scheduled") {
+    test("fail: should fail if release status is not Scheduled") {
       val releaseRepo = new InMemoryReleaseRepository()
       val artistRepo = new InMemoryArtistRepository()
       val service = new ReleaseService(releaseRepo, artistRepo)
@@ -334,7 +334,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(result == Left(AppError.InvalidState))
     }
 
-    test("should fail if agreed date is in the future") {
+    test("fail: should fail if agreed date is in the future") {
       val releaseRepo = new InMemoryReleaseRepository()
       val artistRepo = new InMemoryArtistRepository()
       val service = new ReleaseService(releaseRepo, artistRepo)
@@ -357,7 +357,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(result == Left(AppError("Release date has not been reached yet")))
     }
 
-    test("should take down a released release") {
+    test("success: should take down a released release") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -379,7 +379,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(updated.status == ReleaseStatus.TakenDown)
     }
 
-    test("should not take down a draft or scheduled release") {
+    test("success: should not take down a draft or scheduled release") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 
@@ -396,7 +396,7 @@ class ReleaseServiceTest extends AnyFunSuite {
       assert(result2 == Left(AppError("Only released releases can be taken down")))
     }
 
-    test("should return error if release not found") {
+    test("fail: should return error if release not found") {
       val repo = new InMemoryReleaseRepository()
       val service = new ReleaseService(repo, InMemoryArtistRepository())
 

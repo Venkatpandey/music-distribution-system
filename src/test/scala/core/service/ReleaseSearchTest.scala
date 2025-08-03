@@ -8,7 +8,7 @@ import org.scalatest.funsuite.AnyFunSuite
 
 class ReleaseSearchTest extends AnyFunSuite {
 
-  test("should return multiple songs with titles similar to the query") {
+  test("success: should return multiple songs with titles similar to the query") {
     val repo = new InMemoryReleaseRepository()
     val releaseService = new ReleaseService(releaseRepo = repo, artistRepo = InMemoryArtistRepository())
     val searchService = new ReleaseSearchService(repo)
@@ -63,7 +63,7 @@ class ReleaseSearchTest extends AnyFunSuite {
     assert(matchedTitles.size == 3)
   }
 
-  test("should not return songs that are not similar enough") {
+  test("success: should not return songs that are not similar enough") {
     val repo = new InMemoryReleaseRepository()
     val releaseService = new ReleaseService(releaseRepo = repo, artistRepo = InMemoryArtistRepository())
     val searchService = new ReleaseSearchService(repo)
@@ -116,7 +116,7 @@ class ReleaseSearchTest extends AnyFunSuite {
     assert(matchedTitles.isEmpty)
   }
 
-  test("should ignore songs from releases not in Released state") {
+  test("success: should ignore songs from releases not in Released state") {
     val repo = new InMemoryReleaseRepository()
     val releaseService = new ReleaseService(releaseRepo = repo, artistRepo = InMemoryArtistRepository())
     val searchService = new ReleaseSearchService(repo)

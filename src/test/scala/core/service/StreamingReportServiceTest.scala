@@ -10,7 +10,7 @@ import java.time.Instant
 
 class StreamingReportServiceTest extends AnyFunSuite {
 
-  test("should generate correct report with mixed streams") {
+  test("success: should generate correct report with mixed streams") {
     val releaseRepo = new InMemoryReleaseRepository()
     val streamRepo = new InMemoryStreamRepository()
 
@@ -49,7 +49,7 @@ class StreamingReportServiceTest extends AnyFunSuite {
     assert(entry2.title == "Track Two")
   }
 
-  test("should return empty list if artist has no streams") {
+  test("fail: should return empty list if artist has no streams") {
     val releaseRepo = new InMemoryReleaseRepository()
     val streamRepo = new InMemoryStreamRepository()
 

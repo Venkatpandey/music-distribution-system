@@ -11,7 +11,7 @@ import java.time.Instant
 
 class PaymentServiceTest extends AnyFunSuite {
 
-  test("should create payment for all monetized streams (first time)") {
+  test("success: should create payment for all monetized streams (first time)") {
     val streamRepo = new InMemoryStreamRepository()
     val paymentRepo = new InMemoryPaymentRepository()
     val paymentService = new PaymentService(streamRepo, paymentRepo)
@@ -32,7 +32,7 @@ class PaymentServiceTest extends AnyFunSuite {
     assert(payment.totalAmount == BigDecimal("0.02"))
   }
 
-  test("should create payment only for streams after last payment") {
+  test("success: should create payment only for streams after last payment") {
     val streamRepo = new InMemoryStreamRepository()
     val paymentRepo = new InMemoryPaymentRepository()
     val paymentService = new PaymentService(streamRepo, paymentRepo)
@@ -59,7 +59,7 @@ class PaymentServiceTest extends AnyFunSuite {
     assert(payment.totalAmount == BigDecimal("0.01"))
   }
 
-  test("should return error if no new monetized streams since last payment") {
+  test("fail: should return error if no new monetized streams since last payment") {
     val streamRepo = new InMemoryStreamRepository()
     val paymentRepo = new InMemoryPaymentRepository()
     val paymentService = new PaymentService(streamRepo, paymentRepo)

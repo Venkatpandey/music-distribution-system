@@ -9,7 +9,7 @@ import org.scalatest.funsuite.AnyFunSuite
 
 class StreamingServiceTest extends AnyFunSuite {
 
-  test("should record monetized stream for released song with duration >= 30") {
+  test("success: should record monetized stream for released song with duration >= 30") {
     val releaseRepo = new InMemoryReleaseRepository()
     val streamRepo = new InMemoryStreamRepository()
     val streamingService = new StreamingService(releaseRepo, streamRepo)
@@ -34,7 +34,7 @@ class StreamingServiceTest extends AnyFunSuite {
     assert(recorded.head.monetized)
   }
 
-  test("should record non-monetized stream if duration < 30") {
+  test("success: should record non-monetized stream if duration < 30") {
     val releaseRepo = new InMemoryReleaseRepository()
     val streamRepo = new InMemoryStreamRepository()
     val streamingService = new StreamingService(releaseRepo, streamRepo)
@@ -58,7 +58,7 @@ class StreamingServiceTest extends AnyFunSuite {
     assert(!recorded.head.monetized)
   }
 
-  test("should return error if release is not released") {
+  test("fail: should return error if release is not released") {
     val releaseRepo = new InMemoryReleaseRepository()
     val streamRepo = new InMemoryStreamRepository()
     val streamingService = new StreamingService(releaseRepo, streamRepo)
@@ -80,7 +80,7 @@ class StreamingServiceTest extends AnyFunSuite {
     assert(result == Left(AppError("Release is not active for streaming")))
   }
 
-  test("should return error if release is taken down") {
+  test("fail: should return error if release is taken down") {
     val releaseRepo = new InMemoryReleaseRepository()
     val streamRepo = new InMemoryStreamRepository()
     val streamingService = new StreamingService(releaseRepo, streamRepo)
@@ -102,7 +102,7 @@ class StreamingServiceTest extends AnyFunSuite {
     assert(result == Left(AppError("This release has been taken down")))
   }
 
-  test("should return error if song is not found in any release") {
+  test("fail: should return error if song is not found in any release") {
     val releaseRepo = new InMemoryReleaseRepository()
     val streamRepo = new InMemoryStreamRepository()
     val streamingService = new StreamingService(releaseRepo, streamRepo)
@@ -112,7 +112,7 @@ class StreamingServiceTest extends AnyFunSuite {
     assert(result == Left(AppError("Song not found in any release")))
   }
 
-  test("should return error if duration is zero or negative") {
+  test("fail: should return error if duration is zero or negative") {
     val releaseRepo = new InMemoryReleaseRepository()
     val streamRepo = new InMemoryStreamRepository()
     val streamingService = new StreamingService(releaseRepo, streamRepo)

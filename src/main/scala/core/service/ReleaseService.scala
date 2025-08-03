@@ -7,6 +7,7 @@ import core.error.AppError
 
 import java.time.LocalDate
 import java.util.UUID
+import scala.annotation.tailrec
 
 class ReleaseService(releaseRepo: ReleaseRepository, artistRepo: ArtistRepository) {
 
@@ -28,19 +29,25 @@ class ReleaseService(releaseRepo: ReleaseRepository, artistRepo: ArtistRepositor
   // createRelease create a release if it doesnt exists
   def createRelease(release: Release): Either[AppError, Release] = {
     val finalRelease =
-      if (release.id.value.trim.isEmpty)
-        release.copy(id = ReleaseId(UUID.randomUUID().toString))
-      else
+      if (release.id.value.trim.isEmpty) {
+        // no incoming ID → generate a unique one which doesnt exist
+        release.copy(id = generateUniqueId())
+      } else {
+        // check provided user id doesnt exist
+        if (releaseRepo.findById(release.id).isDefined)
+          return Left(AppError("Release ID already exists"))
         release
+      }
 
-    releaseRepo.findById(finalRelease.id) match {
-      case Some(_) =>
-        Left(AppError.InvalidState)
+    releaseRepo.save(finalRelease)
+    Right(finalRelease)
+  }
 
-      case None =>
-        releaseRepo.save(finalRelease)
-        Right(finalRelease)
-    }
+  @tailrec
+  private def generateUniqueId(): ReleaseId = {
+    val candidate = ReleaseId(UUID.randomUUID().toString)
+    if (releaseRepo.findById(candidate).isEmpty) candidate
+    else generateUniqueId()
   }
 
 // proposeReleaseDate helps artist to propose a new release date for a release.
